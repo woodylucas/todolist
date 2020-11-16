@@ -11,6 +11,7 @@ class TodoList extends Component {
     this.create = this.create.bind(this);
     this.remove = this.remove.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
+    this.toggleCompletion = this.toggleCompletion.bind(this);
   }
   create(newTodo) {
     this.setState((currState) => ({
@@ -33,14 +34,26 @@ class TodoList extends Component {
     });
     this.setState({ todos: updateTodos });
   }
+
+  toggleCompletion(id) {
+    const updateTodos = this.state.todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    this.setState({ todos: updateTodos });
+  }
   render() {
     const todos = this.state.todos.map((todo) => (
       <Todo
         key={todo.id}
         id={todo.id}
+        completed={todo.completed}
         task={todo.task}
         removeTodo={this.remove}
         updateTodo={this.updateTodo}
+        toggleTodo={this.toggleCompletion}
       />
     ));
     return (
